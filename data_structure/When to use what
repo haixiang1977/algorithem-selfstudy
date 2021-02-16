@@ -9,3 +9,6 @@ Array/Vector
    you know the number of elements in the array ahead of time so that you can allocate the correct amount of memory for the array
    you need speed when iterating through all the elements in sequence. You can use pointer math on the array to access each element, whereas you need to lookup the node based on the pointer for each element in linked list, which may result in page faults which may result in performance hits.
    memory is a concern. Filled arrays take up less memory than linked lists. 
+
+circular buffer
+    std::queue and std::deque
