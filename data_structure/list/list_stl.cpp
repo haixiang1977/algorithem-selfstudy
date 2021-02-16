@@ -31,3 +31,43 @@
 //        unique - remove duplicate values
 //        sort - sort elements in container
 //        reverse - reverse the order of elements
+
+// g++ list_stl.cpp -o list_stl.out
+// ./list_stl.out
+// front 200
+// back 400
+// front 100
+// back 300
+// size 2
+
+#include <iostream>
+#include <list>
+
+using namespace std;
+
+int main()
+{
+    std::list<int> my_list;
+
+    my_list.push_front(100);
+    my_list.push_front(200);
+
+    my_list.push_back(300);
+    my_list.push_back(400);
+
+    cout << "front " << my_list.front() << endl;
+    cout << "back " << my_list.back() << endl;
+
+    // pop front
+    my_list.pop_front();
+    cout << "front " << my_list.front() << endl;
+
+    // pop back
+    my_list.pop_back();
+    cout << "back " << my_list.back() << endl;
+
+    // size
+    cout << "size " << my_list.size() << endl;
+
+    return 0;
+}
