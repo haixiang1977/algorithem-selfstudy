@@ -13,3 +13,4 @@ The underlying data-structure used (std::multiset, std::map, and std::multimap) 
 
 std::queue and std:deque
 https://www.geeksforgeeks.org/difference-between-queue-and-deque-in-c/
+can use std::queue/std::deque to implement circular buffer/list
