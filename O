@@ -1,0 +1,4 @@
+O(n!) > O(2^n) > O(n^3) > O(n^2) > O(nlog(n)) > O(n) > O(log(n)) > O(1)
+
+NP: O(n!)
+
