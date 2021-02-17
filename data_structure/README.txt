@@ -13,4 +13,8 @@ The underlying data-structure used (std::multiset, std::map, and std::multimap) 
 
 std::queue and std:deque
 https://www.geeksforgeeks.org/difference-between-queue-and-deque-in-c/
+deque is an ADT (abstract data structure) and the implementation can be array or double linked list.
+queue is an container type and the underlying container may be one of the standard container class template or some other specifically designed container class.
+stl queue is using deque as standard container
+https://www.cplusplus.com/reference/queue/queue/
 can use std::queue/std::deque to implement circular buffer/list
