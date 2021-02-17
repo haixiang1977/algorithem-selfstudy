@@ -4,6 +4,16 @@ stack
 queue -> priority queue -> heap
 tree
 
+stl organizes its classes into three categories: sequence containers, adapters and associative containers.
+stack is an adapter implementing LIFO access.
+queue is an adapter implementing FIFO access.
+a priority queue is an adapter for which deletion returns the largest (or smallest) value.
+
+sequence container: store data by position in linear order: first element, second element, ... - vector, deque, list
+associative container: stores elements by key and access elements by key - set, multiset, map, multimap
+adapter contains another container as its underlying storge structure - stack, queue, priority_queue
+
+
 std::array: store in the stack and its size has to be known at compile time
 std::vector: store in the heap and is dynamical std::array. Recommend to use.
 
