@@ -29,3 +29,5 @@ node declaration from tree
 2 types of tree traversal
     preorder traversal - work at a node is performed before (pre) its children are processed
     postorder traversal - the work at a node is performed after (post) its children are processed
+
+binary tree - a tree which no node can have more than two children
