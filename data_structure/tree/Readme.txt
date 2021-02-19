@@ -31,3 +31,4 @@ node declaration from tree
     postorder traversal - the work at a node is performed after (post) its children are processed
 
 binary tree - a tree which no node can have more than two children
+binary tree is an example of associative container
