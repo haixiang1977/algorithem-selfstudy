@@ -34,3 +34,12 @@ node declaration from tree
 
 binary tree - a tree which no node can have more than two children
 binary tree is an example of associative container
+
+node declaration from binary tree
+    struct BinaryTreeNode
+    {
+        Object              element
+        BinaryTreeNode*     parent;
+        BinaryTreeNode*     left;
+        BinaryTreeNode*     right;
+    }
