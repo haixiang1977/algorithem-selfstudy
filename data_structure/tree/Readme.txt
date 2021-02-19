@@ -5,7 +5,7 @@ https://www.softwaretestinghelp.com/trees-in-cpp/
 https://www.geeksforgeeks.org/c-programs-gq/tree-programs-gq/
 
 tree
-binary tree (insert is faster than array, search is slower than binary search). it commonly used when insert/delete a record and search
+binary tree (insert is faster than array, search is slower than binary search). it commonly used when insert/delete a record and search. And it cannot random access.
 
 tree definition:
     root - distinguished node
