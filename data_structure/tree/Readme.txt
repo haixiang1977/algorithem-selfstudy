@@ -26,3 +26,6 @@ node declaration from tree
         TreeNode*   *nextSilbing;
     }
     
+2 types of tree traversal
+    preorder traversal - work at a node is performed before (pre) its children are processed
+    postorder traversal - the work at a node is performed after (post) its children are processed
