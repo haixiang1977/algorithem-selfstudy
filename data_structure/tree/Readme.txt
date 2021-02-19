@@ -43,3 +43,6 @@ node declaration from binary tree
         BinaryTreeNode*     left;
         BinaryTreeNode*     right;
     }
+
+Red-Black tree - a special balanced binary tree
+    can finish insert/delete/search in O(log(n))
