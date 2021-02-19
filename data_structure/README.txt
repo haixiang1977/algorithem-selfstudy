@@ -30,3 +30,7 @@ https://www.cplusplus.com/reference/queue/queue/
 
 deque can push/pop from front/end and also allow linear access, is the best candidate to implement circualr buffer/list
 can use std::queue/std::deque to implement circular buffer/list
+
+priority queue/heap
+https://www.cplusplus.com/reference/queue/priority_queue/
+http://www.cplusplus.com/reference/algorithm/make_heap/
