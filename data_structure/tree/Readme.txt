@@ -6,6 +6,8 @@ https://www.geeksforgeeks.org/c-programs-gq/tree-programs-gq/
 
 tree
 binary tree (insert is faster than array, search is slower than binary search). it commonly used when insert/delete a record and search. And it cannot random access.
+insert/delete: linkedlist < tree < array
+search:  array < tree < linkedlist
 
 tree definition:
     root - distinguished node
