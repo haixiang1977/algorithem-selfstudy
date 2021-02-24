@@ -21,6 +21,7 @@
 using namespace std;
 
 // tree node definiation
+// not common data structure and designed by me
 class TreeNode
 {
  public:
