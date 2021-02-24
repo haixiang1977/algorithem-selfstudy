@@ -77,9 +77,9 @@ void parse_dir(char* path, TreeNode* node)
         {
             TreeNode* child = new TreeNode();
 
-	        child->m_parent = node;
-	        child->m_name = std::string(namelist[n]->d_name);
-	        node->m_children_list.push_back(child);
+            child->m_parent = node;
+            child->m_name = std::string(namelist[n]->d_name);
+            node->m_children_list.push_back(child);
 
             // check file or directory
             char* full_path = concat(path, namelist[n]->d_name);
@@ -90,7 +90,7 @@ void parse_dir(char* path, TreeNode* node)
             {
                 // parse sub directory
                 parse_dir(full_path, child);
-	        }
+            }
         }
         free(namelist[n]);
     }
@@ -106,12 +106,12 @@ void dump_tree(TreeNode* node, int indent)
 
     for (int i = 0; i < (int)node->m_children_list.size(); i++)
     {
-	    for (int j = 0; j < indent; j++)
-	    {
-	        printf(" ");
-	    }
+        for (int j = 0; j < indent; j++)
+        {
+            printf(" ");
+        }
         printf("%s\n", node->m_children_list[i]->m_name.c_str());
-	    dump_tree(node->m_children_list[i], indent + 4);
+        dump_tree(node->m_children_list[i], indent + 4);
     }
 
     return;
