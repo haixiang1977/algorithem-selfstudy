@@ -34,7 +34,7 @@ node declaration from tree
 
 binary tree - a tree which no node can have more than two children
 
-binary search tree - The binary tree that is ordered. In a binary search tree, the nodes to the left are less than the root node while the nodes to the right are greater than or equal to the root node.
+binary search tree (BST) - The binary tree that is ordered. In a binary search tree, the nodes to the left are less than the root node while the nodes to the right are greater than or equal to the root node.
 
 expression tree - A binary tree that is used to evaluate simple arithmetic expressions is called an expression tree.
 
@@ -48,6 +48,10 @@ node declaration from binary tree
         BinaryTreeNode*     left;
         BinaryTreeNode*     right;
     }
+
+balanced tree - The left and right subtrees' heights differ by at most one, The left subtree is balanced, The right subtree is balanced
+
+balanced binary tree (B-BST) - Red-Black tree as example
 
 Red-Black tree - a special balanced binary tree
     can finish insert/delete/search in O(log(n))
