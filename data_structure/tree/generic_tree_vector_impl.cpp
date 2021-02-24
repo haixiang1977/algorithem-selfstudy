@@ -1,6 +1,6 @@
-// generate the gernal tree example
+// generate the generic tree example - vector/linked list implementation
 // read directory stucture and print as a tree
-// g++ -g -O0 general_tree_create.cpp -o general_tree_create.out
+// g++ -g -O0 generic_tree_vector_impl.cpp -o generic_tree_vector_impl.out
 
 #include <stdlib.h>
 #include <stdio.h>
