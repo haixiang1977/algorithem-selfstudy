@@ -33,6 +33,11 @@ node declaration from tree
     postorder traversal - the work at a node is performed after (post) its children are processed
 
 binary tree - a tree which no node can have more than two children
+
+binary search tree - The binary tree that is ordered. In a binary search tree, the nodes to the left are less than the root node while the nodes to the right are greater than or equal to the root node.
+
+expression tree - A binary tree that is used to evaluate simple arithmetic expressions is called an expression tree.
+
 binary tree is an example of associative container
 
 node declaration from binary tree
