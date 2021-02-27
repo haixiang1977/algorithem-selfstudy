@@ -30,6 +30,13 @@
 // name: node6 value: 6
 // tree leaf count 3
 // tree depth 3
+// --node0 0
+//    |-node1 1
+//        |-node3 3
+//        --node4 4
+//    --node2 2
+//        |-node5 5
+//            --node6 6
 
 #include <iostream>
 #include <queue>
@@ -169,6 +176,41 @@ int calc_depth(TreeNode* node)
     return 1 + max(depth_left, depth_right);
 }
 
+void print_tree(TreeNode* node, int level, bool is_left)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    for (int i = 0; i < level; i++)
+    {
+        printf(" ");
+    }
+
+    if (is_left)
+    {
+        printf("|-");
+    }
+    else
+    {
+        printf("--");
+    }
+    printf("%s %d\n", node->m_name.c_str(), node->m_val);
+
+    level += 4;
+    if (node->m_left)
+    {
+        print_tree(node->m_left, level, true);
+    }
+    if (node->m_right)
+    {
+        print_tree(node->m_right, level, false);
+    }
+    
+    return;
+}
+
 int main()
 {
     // build 4 nodes binary tree
@@ -209,6 +251,10 @@ int main()
     int depth = 0;
     depth = calc_depth(&node0);
     printf("tree depth %d\n", depth);
+
+    // print tree
+    int level = 0;
+    print_tree(&node0, level, false);
 
     return 0;
 }
