@@ -54,8 +54,9 @@ class BinarySearchTree_Node
 
     // delete node
     // parameter: root of tree and value
+    //            is_left, is parent left child
     // return: 0 - found and deleted -1 - not found
-    int Delete(BinarySearchTree_Node* root, int val);
+    int Delete(BinarySearchTree_Node* root, bool is_left, int val);
 
     int m_val;
     BinarySearchTree_Node* m_parent;
@@ -221,7 +222,7 @@ int BinarySearchTree_Node::SearchMaximum(BinarySearchTree_Node* root)
     }
 }
 
-int BinarySearchTree_Node::Delete(BinarySearchTree_Node* root, int val)
+int BinarySearchTree_Node::Delete(BinarySearchTree_Node* root, bool is_left, int val)
 {
     BinarySearchTree_Node* node = nullptr;
 
@@ -230,44 +231,88 @@ int BinarySearchTree_Node::Delete(BinarySearchTree_Node* root, int val)
         return -1;
     }
 
-    if (root->m_val == val)
+    if ((val > root->m_val) && (root->m_right))
+    {
+        return Delete(root->m_right, false, val);
+    }
+
+    if ((val < root->m_val) && (root->m_left))
+    {
+        return Delete(root->m_left, true, val);
+    }
+
+    if ((val > root->m_val) && (root->m_right == nullptr))
+    {
+        return -1;
+    }
+
+    if ((val < root->m_val) && (root->m_left == nullptr))
+    {
+        return -1;
+    }
+
+    // val == root->m_val
+    // 1. root has no child and just delete
+    if ((root->m_left == nullptr) && (root->m_right == nullptr))
     {
         delete root;
         return 0;
     }
 
-    node = root;
-    while (node)
+    // 2. root has 1 child and need to move this child to has the same parent
+    if ((root->m_left == nullptr) && (root->m_right))
     {
-        if (val > node->m_val)
+        BinarySearchTree_Node* n = root->m_right;
+        BinarySearchTree_Node* p = root->m_parent;
+        n->m_parent = p;
+        if (is_left)
         {
-            if (node->m_right == nullptr)
-            {
-                // leaf node
-                break;
-            }
-            else
-            {
-                ;
-            }
+            p->m_left = n;
         }
         else
         {
-            if (node->m_left == nullptr)
-            {
-                // leaf node
-                break;
-            }
-            else
-            {
-                ;
-            }
+            p->m_right = n;
         }
+        delete root;
+        return 0;
     }
 
-    // node has 2 children
+    if ((root->m_right == nullptr) && (root->m_left))
+    {
+        BinarySearchTree_Node* n = root->m_left;
+        BinarySearchTree_Node* p = root->m_parent;
+        n->m_parent = p;
+        if (is_left)
+        {
+            p->m_left = n;
+        }
+        else
+        {
+            p->m_right = n;
+        }
+        delete root;
+        return 0;
+    }
 
-    return 0;
+    // 2. root has 2 children and need to move the right to has the same parent
+    //    move the left to be the child of right
+    {
+        BinarySearchTree_Node* n_left = root->m_left;
+        BinarySearchTree_Node* n_right = root->m_right;
+        BinarySearchTree_Node* p = root->m_parent;
+        n_right->m_parent = p;
+        n_left->m_parent = n_right;
+        if (is_left)
+        {
+            p->m_left = n_right;
+        }
+        else
+        {
+            p->m_right = n_right;
+        }
+        delete root;
+        return 0;
+    }
 }
 
 int main()
