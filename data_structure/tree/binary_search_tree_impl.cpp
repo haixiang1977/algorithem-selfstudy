@@ -48,15 +48,24 @@ class BinarySearchTree_Node
     int SearchMinimum(BinarySearchTree_Node* root);
 
     // search maximum value
+    // parameter: root of tree
+    // return:    root of tree
     int SearchMaximum(BinarySearchTree_Node* root);
 
+    // delete node
+    // parameter: root of tree and value
+    // return: 0 - found and deleted -1 - not found
+    int Delete(BinarySearchTree_Node* root, int val);
+
     int m_val;
+    BinarySearchTree_Node* m_parent;
     BinarySearchTree_Node* m_left;
     BinarySearchTree_Node* m_right;
 };
 
 BinarySearchTree_Node::BinarySearchTree_Node() :
     m_val(0),
+    m_parent(nullptr),
     m_left(nullptr),
     m_right(nullptr)
 {
@@ -64,6 +73,7 @@ BinarySearchTree_Node::BinarySearchTree_Node() :
 
 BinarySearchTree_Node::BinarySearchTree_Node(int val) :
     m_val(val),
+    m_parent(nullptr),
     m_left(nullptr),
     m_right(nullptr)
 {
@@ -87,11 +97,11 @@ BinarySearchTree_Node* BinarySearchTree_Node::Search(BinarySearchTree_Node* root
 
     if (val > root->m_val)
     {
-        Search(root->m_right, val);
+        return Search(root->m_right, val);
     }
     else
     {
-        Search(root->m_left, val);
+        return Search(root->m_left, val);
     }
 }
 
@@ -99,17 +109,41 @@ BinarySearchTree_Node* BinarySearchTree_Node::Insert(BinarySearchTree_Node* root
 {
     if (root == nullptr)
     {
-        // this is leaf node
+        // this is root node
         return new BinarySearchTree_Node(val);
     }
 
-    if (val > root->m_val)
+    BinarySearchTree_Node* node = root;
+    while (node)
     {
-        root->m_right = Insert(root->m_right, val);
-    }
-    else
-    {
-        root->m_left = Insert(root->m_left, val);
+        if (val > node->m_val)
+        {
+            if (node->m_right)
+            {
+                node = node->m_right;
+            }
+            else
+            {
+                BinarySearchTree_Node* n = new BinarySearchTree_Node(val);
+                node->m_right = n;
+                n->m_parent = node;
+                break;
+            }
+        }
+        else
+        {
+            if (node->m_left)
+            {
+                node = node->m_left;
+            }
+            else
+            {
+                BinarySearchTree_Node* n = new BinarySearchTree_Node(val);
+                node->m_left = n;
+                n->m_parent = node;
+                break;
+            }
+        }
     }
 
     return root;
@@ -187,10 +221,60 @@ int BinarySearchTree_Node::SearchMaximum(BinarySearchTree_Node* root)
     }
 }
 
+int BinarySearchTree_Node::Delete(BinarySearchTree_Node* root, int val)
+{
+    BinarySearchTree_Node* node = nullptr;
+
+    if (root == nullptr)
+    {
+        return -1;
+    }
+
+    if (root->m_val == val)
+    {
+        delete root;
+        return 0;
+    }
+
+    node = root;
+    while (node)
+    {
+        if (val > node->m_val)
+        {
+            if (node->m_right == nullptr)
+            {
+                // leaf node
+                break;
+            }
+            else
+            {
+                ;
+            }
+        }
+        else
+        {
+            if (node->m_left == nullptr)
+            {
+                // leaf node
+                break;
+            }
+            else
+            {
+                ;
+            }
+        }
+    }
+
+    // node has 2 children
+
+    return 0;
+}
+
 int main()
 {
     BinarySearchTree_Node tmp;
     BinarySearchTree_Node* root = nullptr;
+    BinarySearchTree_Node* node = nullptr;
 
     // insert tree
     root = tmp.Insert(root, 50);
@@ -206,12 +290,22 @@ int main()
     tmp.Dump(root, 0, false);
 
     // search tree
-    if (tmp.Search(root, 5))
+    node = tmp.Search(root, 5);
+    if (node)
     {
-        cout << "node 5 found" << endl;
+        cout << "node " << node->m_val << " found" << endl;
+    }
+    else
+    {
+        cout << "node 5 not found" << endl;
     }
 
-    if (!tmp.Search(root, 100))
+    node = tmp.Search(root, 100);
+    if (node)
+    {
+        cout << "node " << node->m_val << " found" << endl;
+    }
+    else
     {
         cout << "node 100 not found" << endl;
     }
