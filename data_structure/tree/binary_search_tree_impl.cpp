@@ -42,6 +42,12 @@ class BinarySearchTree_Node
     // dump binary search tree
     void Dump(BinarySearchTree_Node* node, int level, bool is_left);
 
+    // search minimum value
+    int SearchMinimum(BinarySearchTree_Node* root);
+
+    // search maximum value
+    int SearchMaximum(BinarySearchTree_Node* root);
+
     int m_val;
     BinarySearchTree_Node* m_left;
     BinarySearchTree_Node* m_right;
@@ -143,6 +149,42 @@ void BinarySearchTree_Node::Dump(BinarySearchTree_Node* node, int level, bool is
     return;
 }
 
+int BinarySearchTree_Node::SearchMinimum(BinarySearchTree_Node* root)
+{
+    if (root == nullptr)
+    {
+        // invalid value
+        return -1;
+    }
+
+    if (root->m_left == nullptr)
+    {
+        return root->m_val;
+    }
+    else
+    {
+        return SearchMinimum(root->m_left);
+    }
+}
+
+int BinarySearchTree_Node::SearchMaximum(BinarySearchTree_Node* root)
+{
+    if (root == nullptr)
+    {
+        // invalid value
+        return -1;
+    }
+
+    if (root->m_right == nullptr)
+    {
+        return root->m_val;
+    }
+    else
+    {
+        return SearchMinimum(root->m_right);
+    }
+}
+
 int main()
 {
     BinarySearchTree_Node tmp;
@@ -171,6 +213,10 @@ int main()
     {
         cout << "node 100 not found" << endl;
     }
+
+    cout << "min " << tmp.SearchMinimum(root) << endl;
+
+    cout << "max " << tmp.SearchMaximum(root) << endl;
 
     return 0;
 }
