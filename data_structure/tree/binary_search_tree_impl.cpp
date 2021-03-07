@@ -17,6 +17,8 @@
 //          --80
 // node 5 found
 // node 100 not found
+// min 5
+// max 80
 // we can see when the new node is inserted, the tree is not balanced
 #include <iostream>
 
@@ -181,7 +183,7 @@ int BinarySearchTree_Node::SearchMaximum(BinarySearchTree_Node* root)
     }
     else
     {
-        return SearchMinimum(root->m_right);
+        return SearchMaximum(root->m_right);
     }
 }
 
