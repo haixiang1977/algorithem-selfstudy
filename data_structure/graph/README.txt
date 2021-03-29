@@ -8,6 +8,14 @@ Graph definitions
     An edge e = (v(i), v(j)) connects vertices v(i) and v(j)
     A self loop is an edge that connects a vertex to itself.
 
+Representation of Graph
+    directed graph
+        suppose v(i) -> v(j), then E = (v(i), v(j))
+    undirected graph
+        suppose v(i) - v(j), then E1 = (v(i), v(j)) and E2 = (v(j), v(i))
+    So undirected graph can use directed graph to represent and just add one more pair.
+    So all the code here in this chapter only consider this directed graph. For un-directed graph, it is also easy to expand.
+
 Graph flavour
     undirected vs directed
     weighted vs unweighted
