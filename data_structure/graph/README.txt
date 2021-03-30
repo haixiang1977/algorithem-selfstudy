@@ -49,6 +49,10 @@ Graph glossary
     Parent
         In a rooted tree, vertex w is the parent of vertex v if w immediately precedes v on the path from the root to v. Vertex w is the parent of v if and only if v is a child of w.
     
+Graphic traverse
+    there are 2 algorithms for graphic traverse (or search).
+    breadth-first search (queue based)
+    depth-first search (stack based)
 
 property: (https://www.geeksforgeeks.org/basic-properties-of-a-graph/)
 . Distance between two Vertices
