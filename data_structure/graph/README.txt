@@ -53,6 +53,7 @@ Graphic traverse
     there are 2 algorithms for graphic traverse (or search).
     breadth-first search (queue based)
     depth-first search (stack based)
+        can be used to check whether this is acylic or cyclic
 
 property: (https://www.geeksforgeeks.org/basic-properties-of-a-graph/)
 . Distance between two Vertices
