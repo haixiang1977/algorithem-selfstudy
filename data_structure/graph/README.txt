@@ -28,6 +28,28 @@ Graph flavour
     implicit vs explicit
     labeled vs unlabeled
 
+Graph glossary
+    http://www-math.ucdenver.edu/~wcherowi/courses/m4408/glossary.html
+    Acyclic Graph
+        A graph is acyclic if it contains no cycles
+    Cycle
+        A closed path with at least one edge
+    Path
+        A path is a trail with no repeated vertices (except possibly the first and last).
+    Adjacent
+        Two vertices are adjacent if they are connected by an edge. We often call these two vertices neighbors. 
+    Ancestor
+        In a rooted tree, a vertex on the path from the root to the vertex. Vertex v is an ancestor of vertex w if and only if w is a descendant of v.
+    Descendant
+        In a rooted tree, a descendant of vertex v is any vertex w whose path from the root contains v.
+    Child
+        In a rooted tree, a vertex v is a child of vertex w if v immediately succeeds w on the path from the root to v. Vertex v is a child of w if and only if w is the parent of v.
+    Loop
+        An edge or arc from a vertex to itself is called a loop. Loops are not allowed in simple graphs or digraphs. Also called self-loops.
+    Parent
+        In a rooted tree, vertex w is the parent of vertex v if w immediately precedes v on the path from the root to v. Vertex w is the parent of v if and only if v is a child of w.
+    
+
 property: (https://www.geeksforgeeks.org/basic-properties-of-a-graph/)
 . Distance between two Vertices
     If there is more than one edge which is used two connect two vertices then we basically considered the shortest path as the distance between these two vertices.
