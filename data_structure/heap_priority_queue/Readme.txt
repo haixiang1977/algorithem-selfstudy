@@ -5,9 +5,12 @@ Pre-required knowledge: tree and binary tree
 https://www.fluentcpp.com/2018/03/13/heaps-priority-queues-stl-part-1/
 https://www.fluentcpp.com/2018/03/16/heaps-cpp-stl/
 
-A heap is a data structure that has the form of a tree and that respects the heap property, namely: every node must be lower than each of its children.
+A heap is a data structure that has the form of a tree and that respects the heap property, namely: every node must be lower than each of its children - this is ordered.
+(here heap is not the same as heap memory allocation, same for stack)
 
 In a heap, each node can theoretically have any number of children.
-But in the STL, heaps’ nodes have two children, so by heap we will designate binary heaps in this article.
+But in the STL, heaps’ nodes have two children, so by heap we will designate binary tree in this article.
 
 This is how the STL represents heaps: a heap can be stored in an std::vector for example, with the elements laid out next to each other like above.
+
+Priority queues find applications in an operating system that maintains a waiting list for system tasks (process) that is based on their urgency (priority).
