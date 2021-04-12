@@ -8,9 +8,14 @@
 // API:
 // make_heap Make heap from range
 // push_heap Push element into heap range
+//     used to insert elements into heap. The size of the heap is increased by 1. New element is placed appropriately in the heap.
 // pop_heap Pop element from heap range
+//     used to delete the maximum element of the heap. The size of heap is decreased by 1. The heap elements are reorganised accordingly after this operation.
 // sort_heap Sort element of heap
+//     used to sort the heap. After this operation, the container is no longer a heap.
+//     if want to be heap, needs to make_heap again
 // reverse Reverse range
+// https://www.geeksforgeeks.org/heap-using-stl-c/
 
 // g++ -g -O0 heap_stl_impl.cpp -o heap_stl_impl.out -std=c++11
 // ./heap_stl.out
