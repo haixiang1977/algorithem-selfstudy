@@ -22,6 +22,7 @@
 #include <set>
 #include <map>
 #include <list>
+#include <functional>
 
 class VERTEX
 {
@@ -55,6 +56,28 @@ class VERTEX
     VERTEX::COLOUR m_colour;
 };
 
+class VERTEXINFO
+{
+ public:
+    VERTEXINFO() :
+        m_parent_id(-1), m_min_weight(0)
+        {}
+    VERTEXINFO(int id, int val) :
+        m_parent_id(id), m_min_weight(val)
+        {}
+    virtual ~VERTEXINFO() {}
+
+    int get_parent_id() const { return m_parent_id; }
+    int get_min_weight() const { return m_min_weight; }
+
+    void set_min_weight(int weight) { m_min_weight = weight; }
+    void set_parent_id(int id) { m_parent_id = id; }
+
+ private:
+    int m_parent_id;
+    int m_min_weight;
+};
+
 class GRAPH
 {
  public:
@@ -71,12 +94,14 @@ class GRAPH
     // get neighour set
     std::set<VERTEX*> get_neighbors(VERTEX* v);
 
+    int get_edge_weight(VERTEX* v_i, VERTEX* v_j);
+
     // dump the graph
     void dump();
 
     // mimimum path
     // return the weight of minimum path and the list of vertex
-    int minimum_path(VERTEX* v_start, VERTEX* v_end, std::list<VERTEX*>& path);
+    int minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>& path);
 
  private:
     // <label, VERTEX*>
@@ -157,6 +182,16 @@ std::set<VERTEX*> GRAPH::get_neighbors(VERTEX* v)
     return s;
 }
 
+int GRAPH::get_edge_weight(VERTEX* v_i, VERTEX* v_j)
+{
+    int v_i_idx = v_i->get_idx();
+    int v_j_idx = v_j->get_idx();
+
+    auto it = m_adjcent_map.find(v_i_idx);
+
+    return it->second[v_j_idx];
+}
+
 void GRAPH::dump()
 {
     for (auto it = m_label_map.begin(); it != m_label_map.end(); it++)
@@ -184,9 +219,112 @@ void GRAPH::dump()
     return;
 }
 
-int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::list<VERTEX*>& path)
+class MINPATH
+{
+ public:
+    MINPATH() {}
+    MINPATH (int v_end, int weight) :
+        m_end_idx(v_end), m_weight(weight)
+    {}
+    virtual ~MINPATH() {}
+
+    int get_end_idx() const { return m_end_idx; }
+    int get_weight() const { return m_weight; }
+
+    void set_end_idx(int v_end) { m_end_idx = v_end; }
+    void set_weight (int weight) { m_weight = weight; }
+
+    friend bool operator < (const MINPATH& lhs, const MINPATH& rhs)
+    {
+        return lhs.get_weight() < rhs.get_weight();
+    }
+
+    friend bool operator > (const MINPATH& lhs, const MINPATH& rhs)
+    {
+        return lhs.get_weight() > rhs.get_weight();
+    }
+
+ private:
+    int m_end_idx;
+    int m_weight;
+};
+
+int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>& path)
 {
     int ret = -1;
+    bool is_found = false;
+
+    std::priority_queue<MINPATH,std::vector<MINPATH>> min_path_queue;
+
+    for (auto it = m_label_map.begin(); it != m_label_map.end(); it++)
+    {
+        // initialize all the vertex is white color
+        VERTEX* v = it->second;
+        v->set_colour(VERTEX::COLOUR::WHITE);
+        // initialize the path list
+        VERTEXINFO v_info;
+        path.push_back(v_info);
+    }
+
+    // push start vertex into priority queue and weight = 0 since self
+    int v_start_idx = v_start->get_idx();
+    MINPATH min_path(v_start_idx, 0);
+    min_path_queue.push(min_path);
+
+    int v_end_idx = v_end->get_idx();
+
+    while (!min_path_queue.empty())
+    {
+        min_path = min_path_queue.top();
+        min_path_queue.pop();
+
+        int v_cur_idx = min_path.get_end_idx();
+        if (v_cur_idx == v_end_idx)
+        {
+            is_found = true;
+            break;
+        }
+
+        auto it = m_idx_map.find(v_cur_idx);
+        VERTEX* v = it->second;
+        if (v->get_color() != VERTEX::COLOUR::BLACK)
+        {
+            v->set_colour(VERTEX::COLOUR::BLACK);
+            // get adjcent neighbors
+            std::set<VERTEX*> neigbor = get_neighbors(v);
+            for (auto it = neigbor.begin(); it != neigbor.end(); it++)
+            {
+                VERTEX* n = *it;
+                int n_idx = n->get_idx();
+                if (n->get_color() == VERTEX::COLOUR::WHITE)
+                {
+                    int new_weight = path[v_cur_idx].get_min_weight() + get_edge_weight(v, n);
+                    if (new_weight < path[n_idx].get_min_weight())
+                    {
+                        path[n_idx].set_min_weight(new_weight);
+                        path[n_idx].set_parent_id(v_cur_idx);
+                        MINPATH m_path(n_idx, new_weight);
+                        min_path_queue.push(m_path);
+                    }
+                }
+                else
+                {
+                    // already visited and can not be less
+                    // so skip here
+                }
+            }
+        }
+    }
+
+    if (is_found)
+    {
+        ret = path[v_end_idx].get_min_weight();
+    }
+    else
+    {
+        std::cout << "path not found" << std::endl;
+    }
+
     return ret;
 }
 
@@ -225,14 +363,13 @@ int main()
     graph.dump();
 
     int min_weight = -1;
-    std::list<VERTEX*> path_list;
-    min_weight = graph.minimum_path(v_f, v_c, path_list);
+    std::vector<VERTEXINFO> path_vector;
+    min_weight = graph.minimum_path(v_f, v_c, path_vector);
     std::cout << "minmum path weight from VERTEX F to VERTEX C " << min_weight << std::endl;
     std::cout << "path vertex sequence ";
-    for (std::list<VERTEX*>::iterator it = path_list.begin(); it != path_list.end(); it++)
+    for (int i = 0; i < path_vector.size(); i++)
     {
-        VERTEX* v = *it;
-        std::cout << v->get_name() << " ";
+        std::cout << path_vector[i].get_parent_id() << " ";
     }
     std::cout << std::endl;
 
