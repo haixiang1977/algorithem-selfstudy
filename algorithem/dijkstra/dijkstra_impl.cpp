@@ -24,6 +24,8 @@
 #include <list>
 #include <functional>
 
+#define DEBUG_DIJLSTRA 1
+
 class VERTEX
 {
  public:
@@ -59,8 +61,9 @@ class VERTEX
 class VERTEXINFO
 {
  public:
+    const static int INVALID_WEIGHT = 65536;
     VERTEXINFO() :
-        m_parent_id(-1), m_min_weight(0)
+        m_parent_id(-1), m_min_weight(INVALID_WEIGHT)
         {}
     VERTEXINFO(int id, int val) :
         m_parent_id(id), m_min_weight(val)
@@ -270,6 +273,9 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
     int v_start_idx = v_start->get_idx();
     MINPATH min_path(v_start_idx, 0);
     min_path_queue.push(min_path);
+    // update the path info
+    path[v_start_idx].set_parent_id(-1);
+    path[v_start_idx].set_min_weight(0);
 
     int v_end_idx = v_end->get_idx();
 
@@ -285,6 +291,14 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
             break;
         }
 
+#ifdef DEBUG_DIJLSTRA
+        {
+            auto it = m_idx_map.find(v_cur_idx);
+            VERTEX* v = it->second;
+            std::cout << "pop from priority queue " << v->get_name() << std::endl;
+        }
+#endif
+
         auto it = m_idx_map.find(v_cur_idx);
         VERTEX* v = it->second;
         if (v->get_color() != VERTEX::COLOUR::BLACK)
@@ -295,6 +309,11 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
             for (auto it = neigbor.begin(); it != neigbor.end(); it++)
             {
                 VERTEX* n = *it;
+#ifdef DEBUG_DIJLSTRA
+                {
+                    std::cout << "found neighbor " << n->get_name() << std::endl;
+                }
+#endif
                 int n_idx = n->get_idx();
                 if (n->get_color() == VERTEX::COLOUR::WHITE)
                 {
@@ -369,7 +388,7 @@ int main()
     std::cout << "path vertex sequence ";
     for (int i = 0; i < path_vector.size(); i++)
     {
-        std::cout << path_vector[i].get_parent_id() << " ";
+        std::cout << path_vector[i].get_min_weight() << " ";
     }
     std::cout << std::endl;
 
