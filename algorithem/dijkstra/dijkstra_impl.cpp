@@ -1,3 +1,7 @@
+// dijkstra is one of greedy algorithm
+//     it will always look the minimum weight of end vertex from start vertex (priorty queue)
+//     then pick this end vertex and look at the neighbors and caculate the new weight again
+//     until it first reach the final end vertex whose weight is minimum
 // g++ -g -O0 dijkstra_impl.cpp -o dijkstra_impl.out -std=c++11
 
 // ./dijkstra_impl.out
@@ -13,8 +17,10 @@
 // D:10
 // vertex name: F
 // D:20 E:6
-// minmum path weight from VERTEX F to VERTEX C -1
-// path vertex sequence
+// minmum path weight from VERTEX F to VERTEX C 38
+// minmum path weight from VERTEX C to VERTEX F -1
+// minmum path weight from VERTEX B to VERTEX B 0
+// minmum path weight from VERTEX A to VERTEX C 10
 
 #include <iostream>
 #include <string>
@@ -24,7 +30,7 @@
 #include <list>
 #include <functional>
 
-#define DEBUG_DIJLSTRA 1
+// #define DEBUG_DIJLSTRA 1
 
 class VERTEX
 {
@@ -98,6 +104,8 @@ class GRAPH
     std::set<VERTEX*> get_neighbors(VERTEX* v);
 
     int get_edge_weight(VERTEX* v_i, VERTEX* v_j);
+
+    std::string get_name_by_idx(int idx);
 
     // dump the graph
     void dump();
@@ -257,7 +265,8 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
     int ret = -1;
     bool is_found = false;
 
-    std::priority_queue<MINPATH,std::vector<MINPATH>> min_path_queue;
+    // std::greater will put the minimum into priority
+    std::priority_queue<MINPATH,std::vector<MINPATH>, std::greater<MINPATH>> min_path_queue;
 
     for (auto it = m_label_map.begin(); it != m_label_map.end(); it++)
     {
@@ -323,6 +332,11 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
                         path[n_idx].set_min_weight(new_weight);
                         path[n_idx].set_parent_id(v_cur_idx);
                         MINPATH m_path(n_idx, new_weight);
+#ifdef DEBUG_DIJLSTRA
+                    {
+                        std::cout << "push into priority queue index " << n_idx << " weight " << new_weight << std::endl;
+                    }
+#endif
                         min_path_queue.push(m_path);
                     }
                 }
@@ -339,10 +353,12 @@ int GRAPH::minimum_path(VERTEX* v_start, VERTEX* v_end, std::vector<VERTEXINFO>&
     {
         ret = path[v_end_idx].get_min_weight();
     }
+#ifdef DEBUG_DIJLSTRA
     else
     {
         std::cout << "path not found" << std::endl;
     }
+#endif
 
     return ret;
 }
@@ -384,13 +400,44 @@ int main()
     int min_weight = -1;
     std::vector<VERTEXINFO> path_vector;
     min_weight = graph.minimum_path(v_f, v_c, path_vector);
-    std::cout << "minmum path weight from VERTEX F to VERTEX C " << min_weight << std::endl;
-    std::cout << "path vertex sequence ";
-    for (int i = 0; i < path_vector.size(); i++)
+    std::cout << "minmum path weight from VERTEX F to VERTEX C: " << min_weight << std::endl;
     {
-        std::cout << path_vector[i].get_min_weight() << " ";
+        std::vector<int> p;
+        std::cout << "path vertex sequence from F to C: ";
+        int v_idx = v_c->get_idx();
+        p.push_back(v_idx);
+        while (1)
+        {
+            int parent_id = path_vector[v_idx].get_parent_id();
+            if (parent_id != -1)
+            {
+                p.push_back(parent_id);
+            }
+            else
+            {
+                // start vertex
+                break;
+            }
+        }
+        for (int i = 0; i < p.size(); i++)
+        {
+            int v_idx = p[i];
+            std::cout << graph.get_name_by_idx(v_idx) << " ";
+        }
     }
     std::cout << std::endl;
+
+    path_vector.clear();
+    min_weight = graph.minimum_path(v_c, v_f, path_vector);
+    std::cout << "minmum path weight from VERTEX C to VERTEX F: " << min_weight << std::endl;
+
+    path_vector.clear();
+    min_weight = graph.minimum_path(v_b, v_b, path_vector);
+    std::cout << "minmum path weight from VERTEX B to VERTEX B: " << min_weight << std::endl;
+
+    path_vector.clear();
+    min_weight = graph.minimum_path(v_a, v_c, path_vector);
+    std::cout << "minmum path weight from VERTEX A to VERTEX C: " << min_weight << std::endl;
 
     return 0;
 }
