@@ -18,6 +18,7 @@
 // vertex name: F
 // D:20 E:6
 // minmum path weight from VERTEX F to VERTEX C 38
+// path vertex sequence from F to C: F E D A B C
 // minmum path weight from VERTEX C to VERTEX F -1
 // minmum path weight from VERTEX B to VERTEX B 0
 // minmum path weight from VERTEX A to VERTEX C 10
@@ -201,6 +202,12 @@ int GRAPH::get_edge_weight(VERTEX* v_i, VERTEX* v_j)
     auto it = m_adjcent_map.find(v_i_idx);
 
     return it->second[v_j_idx];
+}
+
+std::string GRAPH::get_name_by_idx(int v_idx)
+{
+    auto it = m_idx_map.find(v_idx);
+    return it->second->get_name();
 }
 
 void GRAPH::dump()
@@ -412,6 +419,7 @@ int main()
             if (parent_id != -1)
             {
                 p.push_back(parent_id);
+                v_idx = parent_id;
             }
             else
             {
@@ -421,7 +429,8 @@ int main()
         }
         for (int i = 0; i < p.size(); i++)
         {
-            int v_idx = p[i];
+            // reverse order
+            int v_idx = p[p.size() - i - 1];
             std::cout << graph.get_name_by_idx(v_idx) << " ";
         }
     }
